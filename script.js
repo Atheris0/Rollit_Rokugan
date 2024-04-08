@@ -7,11 +7,11 @@ document.addEventListener('DOMContentLoaded', function() {
 function rollDice() {
     var numDice = parseInt(document.getElementById('numDice').value);
     var numPicked = parseInt(document.getElementById('numPicked').value);
+    //console.log("num picked" + numPicked);
     var results = [];
     var rerollResults = [];
     for (var i = 0; i < numDice; i++) {
         var roll = Math.floor(Math.random() * 10) + 1;
-        console.log(roll);
         results.push(roll);
         if (roll === 10) {
             rerollResults.push(roll);
@@ -24,8 +24,13 @@ function rollDice() {
     document.getElementById('diceResults').innerHTML = "Results: " + results.join(', ');
     
     if (rerollResults.length > 0) {
+        if (rerollResults.length > numPicked) {
+            rerollResults = rerollResults.slice(0, numPicked);
+        }
         document.getElementById('rerollArea').style.display = 'block';
         document.getElementById('rerollResults').innerHTML = "Rerolling: " + rerollResults.join(', ');
+        //console.log("Reroll results: " + rerollResults);
+        
     } else {
         document.getElementById('rerollArea').style.display = 'none';
     }
@@ -34,6 +39,7 @@ function rollDice() {
     document.getElementById('numPicked').setAttribute('max', numDice);
     document.getElementById('numPicked').disabled = false;
     calculateTotalBeforeReroll();
+    
 }
 
 function calculateTotalBeforeReroll() {
@@ -50,31 +56,23 @@ function calculateTotalBeforeReroll() {
 }
 
 function calculateTotalAfterReroll() {
-    var numPickedAfterReroll = parseInt(document.getElementById('numPickedAfterReroll').value);
+    
     var totalBeforeReroll = parseInt(document.getElementById('totalBeforeReroll').innerText);
-    var results = document.getElementById('diceResults').innerHTML;
-    results = results.replace('Results: ', '').split(', ');
+    //var rerollResults = document.getElementById('rerollResults').innerHTML;
+    var newTotal = totalBeforeReroll;
+    console.log("first check "+ newTotal);
     
-    var rerollResults = document.getElementById('rerollResults').innerHTML;
-    rerollResults = rerollResults.replace('Rerolling: ', '').split(', ');
-    
-    var total = totalBeforeReroll;
-    
-    for (var i = 0; i < numPickedAfterReroll; i++) {
-        total += parseInt(results[i]);
+    for (var j = 0; j < newRerolls.length; j++) {
+        newTotal += parseInt(newRerolls[j]);
+        console.log("second check "+ newTotal);
     }
     
-    for (var j = 0; j < rerollResults.length; j++) {
-        total += parseInt(rerollResults[j]);
-    }
-    
-    document.getElementById('totalAfterReroll').innerText = total;
+    document.getElementById('totalAfterReroll').innerText = newTotal;
 }
 
 function reroll10s() {
     var rerollResults = document.getElementById('rerollResults').innerHTML;
     rerollResults = rerollResults.replace('Rerolling: ', '').split(', ');
-    console.log("Rerolling 10s");
     
     var newRerolls = [];
     for (var i = 0; i < rerollResults.length; i++) {
@@ -83,6 +81,7 @@ function reroll10s() {
     }
     
     document.getElementById('rerollResults').innerHTML = "Rerolling: " + newRerolls.join(', ');
+    calculateTotalAfterReroll();
 }
 
 function resetAll() {
@@ -92,7 +91,6 @@ function resetAll() {
     document.getElementById('calculationAreaAfterReroll').style.display = 'none';
     document.getElementById('rerollArea').style.display = 'none';
     document.getElementById('numPicked').value = '1';
-    document.getElementById('numPicked').disabled = true;
     document.getElementById('numPickedAfterReroll').value = '1';
     document.getElementById('numPickedAfterReroll').disabled = true;
     document.getElementById('totalBeforeReroll').innerText = '';
