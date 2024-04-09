@@ -7,7 +7,6 @@ document.addEventListener('DOMContentLoaded', function() {
 function rollDice() {
     var numDice = parseInt(document.getElementById('numDice').value);
     var numPicked = parseInt(document.getElementById('numPicked').value);
-    //console.log("num picked" + numPicked);
     var results = [];
     var rerollResults = [];
     for (var i = 0; i < numDice; i++) {
@@ -29,7 +28,6 @@ function rollDice() {
         }
         document.getElementById('rerollArea').style.display = 'block';
         document.getElementById('rerollResults').innerHTML = "Rerolling: " + rerollResults.join(', ');
-        //console.log("Reroll results: " + rerollResults);
         
     } else {
         document.getElementById('rerollArea').style.display = 'none';
@@ -55,44 +53,33 @@ function calculateTotalBeforeReroll() {
     document.getElementById('totalBeforeReroll').innerText = totalBeforeReroll;
 }
 
-function calculateTotalAfterReroll() {
-    
-    var totalBeforeReroll = parseInt(document.getElementById('totalBeforeReroll').innerText);
-    //var rerollResults = document.getElementById('rerollResults').innerHTML;
-    var newTotal = totalBeforeReroll;
-    console.log("first check "+ newTotal);
-    
-    for (var j = 0; j < newRerolls.length; j++) {
-        newTotal += parseInt(newRerolls[j]);
-        console.log("second check "+ newTotal);
-    }
-    
-    document.getElementById('totalAfterReroll').innerText = newTotal;
-}
-
 function reroll10s() {
     var rerollResults = document.getElementById('rerollResults').innerHTML;
     rerollResults = rerollResults.replace('Rerolling: ', '').split(', ');
-    
+    let totalReroll = 0;
     var newRerolls = [];
+
     for (var i = 0; i < rerollResults.length; i++) {
         var reroll = Math.floor(Math.random() * 10) + 1;
         newRerolls.push(reroll);
     }
     
     document.getElementById('rerollResults').innerHTML = "Rerolling: " + newRerolls.join(', ');
-    calculateTotalAfterReroll();
+    for (var i = 0; i < rerollResults.length; i++) {
+        totalReroll += parseInt(newRerolls[i]);
+    }
+    console.log(totalReroll);
+    var totalBeforeReroll = parseInt(document.getElementById('totalBeforeReroll').innerText);
+    document.getElementById('totalAfterReroll').innerText = totalBeforeReroll + totalReroll;
 }
 
 function resetAll() {
-    document.getElementById('numDice').value = '1';
+    document.getElementById('numDice').value = '';
     document.getElementById('diceResults').innerHTML = '';
     document.getElementById('calculationAreaBeforeReroll').style.display = 'none';
     document.getElementById('calculationAreaAfterReroll').style.display = 'none';
     document.getElementById('rerollArea').style.display = 'none';
-    document.getElementById('numPicked').value = '1';
-    document.getElementById('numPickedAfterReroll').value = '1';
-    document.getElementById('numPickedAfterReroll').disabled = true;
+    document.getElementById('numPicked').value = '';
     document.getElementById('totalBeforeReroll').innerText = '';
     document.getElementById('totalAfterReroll').innerText = '';
 }
