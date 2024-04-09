@@ -8,28 +8,30 @@
 </head>
 <body>
     <h1>Dice Roller</h1>
-    <label for="numDice">Total Dice:</label>
-    <input type="number" id="numDice">
-    
-    <label for="numPicked">k</label>
-    <input type="number" id="numPicked">
-    <button id="rollButton">Roll Dice</button>
-    <hr>
-    <div id="diceResults"></div>
-    <div id="calculationAreaBeforeReroll" style="display: none;">
+    <div class="container">
+        <label for="numDice">Total Dice:</label>
+        <input type="number" id="numDice" min="1">
+        
+        <label for="numPicked">k</label>
+        <input type="number" id="numPicked" min="0">
+        <button id="rollButton">Roll Dice</button>
         <hr>
-        <p>Total (Before Reroll): <span id="totalBeforeReroll"></span></p>
+        <div id="diceResults"></div>
+        <div id="calculationAreaBeforeReroll" style="display: none;">
+            <hr>
+            <p>Total (Before Reroll): <span id="totalBeforeReroll"></span></p>
+        </div>
+        <div id="rerollArea" style="display: none;">
+            <hr>
+            <div id="rerollResults"></div>
+            <button id="rerollButton">Reroll 10's</button>
+        </div>
+        <div id="calculationAreaAfterReroll" style="display: none;">
+            <hr>
+            <p>Total (After Reroll): <span id="totalAfterReroll"></span></p>
+        </div>
+        <button id="resetButton">Reset</button>
     </div>
-    <div id="rerollArea" style="display: none;">
-        <hr>
-        <div id="rerollResults"></div>
-        <button id="rerollButton">Reroll 10's</button>
-    </div>
-    <div id="calculationAreaAfterReroll" style="display: none;">
-        <hr>
-        <p>Total (After Reroll): <span id="totalAfterReroll"></span></p>
-    </div>
-    <button id="resetButton">Reset</button>
     <script src="script.js"></script>
 </body>
 </html>
